@@ -1,5 +1,7 @@
 import pygame
 import sys
+from scripts.entities import PhysicsEntiry
+from scripts.utils import load_image
 
 
 class Game:
@@ -13,27 +15,18 @@ class Game:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.clock = pygame.time.Clock()
 
-        self.img = pygame.image.load("data/images/clouds/cloud_1.png")
-        self.img.set_colorkey((0, 0, 0))
-        self.img_position = [150, 400]
-
         self.movement = [False, False]
 
-        self.collision_area = pygame.Rect(50, 50, 300, 50)
+        self.assets = {"player": load_image("entities/player.png")}
+
+        self.player = PhysicsEntiry(self, "player", (50, 50), (8, 15))
 
     def run(self):
         while True:
             self.screen.fill((14, 119, 148))
 
-            img_r = pygame.Rect(*self.img_position, *self.img.get_size())
-
-            if img_r.colliderect(self.collision_area):
-                pygame.draw.rect(self.screen, (0, 100, 255), self.collision_area)
-            else:
-                pygame.draw.rect(self.screen, (0, 50, 255), self.collision_area)
-
-            self.img_position[1] += self.movement[1] - self.movement[0]
-            self.screen.blit(self.img, self.img_position)
+            self.player.update((self.movement[1] - self.movement[0], 0))
+            self.player.render(self.screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -41,15 +34,15 @@ class Game:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key in (pygame.K_w, pygame.K_UP):
+                    if event.key in (pygame.K_a, pygame.K_LEFT):
                         self.movement[0] = True
-                    if event.key in (pygame.K_s, pygame.K_DOWN):
+                    if event.key in (pygame.K_d, pygame.K_RIGHT):
                         self.movement[1] = True
 
                 if event.type == pygame.KEYUP:
-                    if event.key in (pygame.K_w, pygame.K_UP):
+                    if event.key in (pygame.K_a, pygame.K_LEFT):
                         self.movement[0] = False
-                    if event.key in (pygame.K_s, pygame.K_DOWN):
+                    if event.key in (pygame.K_d, pygame.K_RIGHT):
                         self.movement[1] = False
 
             pygame.display.update()

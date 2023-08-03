@@ -12,7 +12,10 @@ class Game:
         self.FPS = 60
 
         pygame.display.set_caption("Gay Master")
+
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        self.display = pygame.Surface((self.WIDTH / 4, self.HEIGHT / 4))
+
         self.clock = pygame.time.Clock()
 
         self.movement = [False, False]
@@ -23,10 +26,10 @@ class Game:
 
     def run(self):
         while True:
-            self.screen.fill((14, 119, 148))
+            self.display.fill((14, 119, 148))
 
             self.player.update((self.movement[1] - self.movement[0], 0))
-            self.player.render(self.screen)
+            self.player.render(self.display)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -44,6 +47,10 @@ class Game:
                         self.movement[0] = False
                     if event.key in (pygame.K_d, pygame.K_RIGHT):
                         self.movement[1] = False
+
+            self.screen.blit(
+                pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)
+            )
 
             pygame.display.update()
             self.clock.tick(self.FPS)

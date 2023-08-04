@@ -1,7 +1,8 @@
 import pygame
 import sys
 from scripts.entities import PhysicsEntiry
-from scripts.utils import load_image
+from scripts.utils import load_image, load_images
+from scripts.tilemap import TileMap
 
 
 class Game:
@@ -20,13 +21,23 @@ class Game:
 
         self.movement = [False, False]
 
-        self.assets = {"player": load_image("entities/player.png")}
+        self.assets = {
+            "decor": load_images("tiles/decor"),
+            "grass": load_images("tiles/grass"),
+            "large_decor": load_images("tiles/large_decor"),
+            "stone": load_images("tiles/stone"),
+            "player": load_image("entities/player.png"),
+        }
 
         self.player = PhysicsEntiry(self, "player", (50, 50), (8, 15))
+
+        self.tilemap = TileMap(self, tile_size=16)
 
     def run(self):
         while True:
             self.display.fill((14, 119, 148))
+
+            self.tilemap.render(self.display)
 
             self.player.update((self.movement[1] - self.movement[0], 0))
             self.player.render(self.display)

@@ -12,7 +12,7 @@ class Game:
         self.WIDTH, self.HEIGHT = 1920, 1010
         self.FPS = 60
 
-        pygame.display.set_caption("Gay Master")
+        pygame.display.set_caption("Game Master")
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.display = pygame.Surface((self.WIDTH / 4, self.HEIGHT / 4))

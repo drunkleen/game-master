@@ -1,6 +1,6 @@
 import pygame
 import sys
-from scripts.entities import PhysicsEntiry
+from scripts.entities import PhysicsEntity
 from scripts.utils import load_image, load_images
 from scripts.tilemap import TileMap
 
@@ -29,7 +29,7 @@ class Game:
             "player": load_image("entities/player.png"),
         }
 
-        self.player = PhysicsEntiry(self, "player", (50, 50), (8, 15))
+        self.player = PhysicsEntity(self, "player", (50, 50), (8, 15))
 
         self.tilemap = TileMap(self, tile_size=16)
 
@@ -52,6 +52,8 @@ class Game:
                         self.movement[0] = True
                     if event.key in (pygame.K_d, pygame.K_RIGHT):
                         self.movement[1] = True
+                    if event.key in (pygame.K_SPACE, pygame.K_UP):
+                        self.player.velocity[1] = -3
 
                 if event.type == pygame.KEYUP:
                     if event.key in (pygame.K_a, pygame.K_LEFT):

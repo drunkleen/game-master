@@ -21,7 +21,7 @@ class TileMap:
         self.offgrid_tiles = []
         self.tile_size = tile_size
 
-        for i in range(10):
+        for i in range(5):
             self.tilemap[f"{3 + i};10"] = {
                 "type": "grass",
                 "variant": 1,

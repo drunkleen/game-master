@@ -51,7 +51,8 @@ class Game:
 
     def run(self):
         while True:
-            self.display.fill((39, 98, 131))
+            self.display.fill((22, 39, 112))
+            self.display.blit(self.assets["background"], (0, 0))
 
             self.scroll[0] += (
                 self.player.rect().centerx
@@ -60,7 +61,7 @@ class Game:
             ) / 30
             self.scroll[1] += (
                 self.player.rect().centery
-                - self.display.get_height() / 2
+                - ((self.display.get_height() / 2) + (self.display.get_height() / 8))
                 - self.scroll[1]
             ) / 30
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))

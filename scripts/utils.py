@@ -1,7 +1,15 @@
 import os
 import pygame
 
+# from screeninfo import get_monitors
+
+
 BASE_IMG_PATH = "data/images/"
+
+
+# def get_monitor_size():
+#     for monitor in get_monitors():
+#         print(monitor)
 
 
 def load_image(path) -> str:

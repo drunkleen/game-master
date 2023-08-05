@@ -1,7 +1,7 @@
 import pygame
 import sys
-from scripts.entities import PhysicsEntity
-from scripts.utils import load_image, load_images
+from scripts.entities import PhysicsEntity, Player
+from scripts.utils import load_image, load_images, load_transparent_images, Animation
 from scripts.tilemap import TileMap
 from scripts.clouds import Clouds
 
@@ -16,7 +16,7 @@ class Game:
         pygame.display.set_caption("Game Master")
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        self.display = pygame.Surface((self.WIDTH / 4, self.HEIGHT / 4))
+        self.display = pygame.Surface((self.WIDTH / 2, self.HEIGHT / 2))
 
         self.clock = pygame.time.Clock()
 
@@ -27,22 +27,31 @@ class Game:
             "grass": load_images("tiles/grass"),
             "large_decor": load_images("tiles/large_decor"),
             "stone": load_images("tiles/stone"),
-            "player": load_image("entities/player.png"),
             "background": load_image("background.png"),
             "clouds": load_images("clouds"),
+            "player_stand": load_image("entities/player.png"),
+            "player": {
+                "idle": Animation(
+                    load_transparent_images("entities/player/idle"), image_duration=6
+                ),
+                "jump": Animation(load_images("entities/player/jump")),
+                "run": Animation(load_images("entities/player/run"), image_duration=4),
+                "slide": Animation(load_images("entities/player/slide")),
+                "wall_slide": Animation(load_images("entities/player/wall_slide")),
+            },
         }
 
         self.clouds = Clouds(self.assets["clouds"], count=16)
 
-        self.player = PhysicsEntity(self, "player", (50, 50), (8, 15))
+        self.player = Player(self, (50, 50), (16, 30))
 
-        self.tilemap = TileMap(self, tile_size=16)
+        self.tilemap = TileMap(self, tile_size=32)
 
         self.scroll = [0, 0]
 
     def run(self):
         while True:
-            self.display.blit(self.assets["background"], (0, 0))
+            self.display.fill((39, 98, 131))
 
             self.scroll[0] += (
                 self.player.rect().centerx

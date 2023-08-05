@@ -15,7 +15,7 @@ PHYSICS_TILES = {"grass", "stone"}
 
 
 class TileMap:
-    def __init__(self, game, tile_size=16):
+    def __init__(self, game, tile_size=32):
         self.game = game
         self.tilemap = {}
         self.offgrid_tiles = []

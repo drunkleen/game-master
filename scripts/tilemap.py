@@ -1,4 +1,5 @@
 import pygame
+import json
 
 NEIGHBOR_OFFSETS = [
     (-1, 0),
@@ -21,19 +22,6 @@ class TileMap:
         self.offgrid_tiles = []
         self.tile_size = tile_size
 
-        for i in range(5):
-            self.tilemap[f"{3 + i};10"] = {
-                "type": "grass",
-                "variant": 1,
-                "pos": (3 + i, 10),
-            }
-
-            self.tilemap[f"10;{5 + i}"] = {
-                "type": "stone",
-                "variant": 1,
-                "pos": (10, i + 5),
-            }
-
     def tiles_around(self, pos) -> list:
         tiles = []
         tile_location = (int(pos[0] // self.tile_size), int(pos[1] // self.tile_size))
@@ -44,6 +32,17 @@ class TileMap:
             if check_location in self.tilemap:
                 tiles.append(self.tilemap[check_location])
         return tiles
+
+    def save(self, path):
+        with open(path, "w") as f:
+            json.dump(
+                {
+                    "tilemap": self.tilemap,
+                    "tile_size": self.tile_size,
+                    "offgrid": self.offgrid_tiles,
+                },
+                f,
+            )
 
     def physics_rects_around(self, pos) -> list:
         return [

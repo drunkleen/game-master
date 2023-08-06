@@ -55,7 +55,10 @@ class PhysicsEntity:
                     self.collisions["up"] = True
                 self.pos[1] = entity_rect.y
 
-        self.flip = False if movement[0] > 0 else True
+        if movement[0] > 0:
+            self.flip = False
+        if movement[0] < 0:
+            self.flip = True
 
         self.velocity[1] = min(5, self.velocity[1] + 0.1)
 

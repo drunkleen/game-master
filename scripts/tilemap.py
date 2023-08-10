@@ -45,6 +45,38 @@ class TileMap:
         self.offgrid_tiles = []
         self.tile_size = tile_size
 
+    def extract(self, id_pairs, keep=False):
+        """
+        The function extracts tiles from a tilemap based on their type and variant, optionally removing
+        them from the tilemap.
+
+        :param id_pairs: The `id_pairs` parameter is a list of tuples representing the tile type and
+        variant that you want to extract from the `offgrid_tiles` and `tilemap` lists. Each tuple in
+        `id_pairs` should have the format `(type, variant)`, where `type` is the type
+        :param keep: The `keep` parameter is a boolean flag that determines whether the matched tiles
+        should be kept in their original positions or removed from the tilemap. If `keep` is set to
+        `False`, the matched tiles will be removed from the tilemap, defaults to False (optional)
+        :return: a list of dictionaries that match the given id_pairs.
+        """
+        matches = []
+        for tile in self.offgrid_tiles.copy():
+            if (tile["type"], tile["variant"]) in id_pairs:
+                matches.append(tile.copy())
+                if not keep:
+                    self.offgrid_tiles.remove(tile)
+
+        for loc in self.tilemap:
+            tile = self.tilemap[loc]
+            if (tile["type"], tile["variant"]) in id_pairs:
+                matches.append(tile.copy())
+                matches[-1]["pos"] = matches[-1]["pos"].copy()
+                matches[-1]["pos"][0] *= self.tile_size
+                matches[-1]["pos"][1] *= self.tile_size
+                if not keep:
+                    del self.tilemap[loc]
+
+        return matches
+
     def tiles_around(self, pos) -> list:
         """
         The function "tiles_around" takes a position and returns a list of tiles surrounding that

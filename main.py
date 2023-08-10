@@ -8,6 +8,9 @@ from scripts.clouds import Clouds
 
 class Game:
     def __init__(self):
+        """
+        This function initializes various attributes and objects for a game.
+        """
         pygame.init()
 
         self.WIDTH, self.HEIGHT = 1920, 1010
@@ -47,9 +50,15 @@ class Game:
 
         self.tilemap = TileMap(self, tile_size=32)
 
+        self.tilemap.load("map.json")
+
         self.scroll = [0, 0]
 
     def run(self):
+        """
+        The `run` function is responsible for running the game loop, updating the display, handling
+        player input, and rendering game objects.
+        """
         while True:
             self.display.fill((22, 39, 112))
             self.display.blit(self.assets["background"], (0, 0))
@@ -86,6 +95,7 @@ class Game:
                         self.movement[1] = True
                     if event.key in (pygame.K_SPACE, pygame.K_UP):
                         self.player.velocity[1] = -3
+                        self.player.jump_count += 11
 
                 if event.type == pygame.KEYUP:
                     if event.key in (pygame.K_a, pygame.K_LEFT):

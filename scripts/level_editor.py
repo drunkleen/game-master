@@ -1,5 +1,6 @@
 import pygame
 import sys
+import contextlib
 from utils import load_image, load_images, load_transparent_images, Animation
 from tilemap import TileMap
 
@@ -31,6 +32,9 @@ class LevelEditor:
 
         self.tilemap = TileMap(self, tile_size=32)
 
+        with contextlib.suppress(FileNotFoundError):
+            self.tilemap.load("map.json")
+
         self.scroll = [0, 0]
 
         self.tile_list = list(self.assets)
@@ -43,6 +47,10 @@ class LevelEditor:
         self.ongrid = True
 
     def run(self):
+        """
+        The above function is a game loop that handles user input, updates the game state, and renders
+        the game screen.
+        """
         # sourcery skip: merge-else-if-into-elif, swap-nested-ifs, switch
         while True:
             self.display.fill((22, 22, 22))
@@ -165,7 +173,11 @@ class LevelEditor:
                     if event.key == pygame.K_g:
                         self.ongrid = not self.ongrid
 
-                    # if event.key == pygame.K_LCTRL
+                    if event.key == pygame.K_t:
+                        self.tilemap.autotile()
+
+                    if event.key == pygame.K_o:
+                        self.tilemap.save("map.json")
 
                     if event.key in (pygame.K_LSHIFT, pygame.K_RSHIFT):
                         self.shift_down = True

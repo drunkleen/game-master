@@ -49,9 +49,7 @@ def load_transparent_image(path) -> str:
     want to load
     :return: an image object.
     """
-    # print("\n\n\n", BASE_IMG_PATH + path + "\n\n\n")
-    img = pygame.image.load(BASE_IMG_PATH + path).convert_alpha()
-    return img
+    return pygame.image.load(BASE_IMG_PATH + path).convert_alpha()
 
 
 def load_transparent_images(path) -> list:

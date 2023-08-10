@@ -43,7 +43,7 @@ class Game:
                 "jump": Animation(load_images("entities/player/jump")),
                 "run": Animation(load_images("entities/player/run"), image_duration=4),
                 "slide": Animation(load_images("entities/player/slide")),
-                "wall_slide": Animation(load_images("entities/player/wall_slide")),
+                "wall_jump": Animation(load_images("entities/player/wall_jump")),
             },
             "particle/leaf": Animation(
                 load_images("particles/leaf"), image_duration=20, loop=False
@@ -59,10 +59,11 @@ class Game:
         self.tilemap.load("map.json")
 
         self.leaf_spawners = []
-        for tree in self.tilemap.extract([("large_decor", 2)], keep=True):
-            self.leaf_spawners.append(
-                pygame.Rect(4 + tree["pos"][0], 4 + tree["pos"][1], 23, 13)
-            )
+        self.leaf_spawners.extend(
+            pygame.Rect(4 + tree["pos"][0], 4 + tree["pos"][1], 23, 13)
+            for tree in self.tilemap.extract([("large_decor", 2)], keep=True)
+        )
+
         self.particles = []
 
         self.scroll = [0, 0]
@@ -130,8 +131,8 @@ class Game:
                         self.movement[0] = True
                     if event.key in (pygame.K_d, pygame.K_RIGHT):
                         self.movement[1] = True
-                    if event.key in (pygame.K_SPACE, pygame.K_UP):
-                        self.player.velocity[1] = -3
+                    if event.key in (pygame.K_SPACE, pygame.K_UP, pygame.K_w):
+                        self.player.jump()
 
                 if event.type == pygame.KEYUP:
                     if event.key in (pygame.K_a, pygame.K_LEFT):

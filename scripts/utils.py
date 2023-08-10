@@ -51,7 +51,6 @@ def load_transparent_image(path) -> str:
     """
     # print("\n\n\n", BASE_IMG_PATH + path + "\n\n\n")
     img = pygame.image.load(BASE_IMG_PATH + path).convert_alpha()
-    img.set_colorkey((0, 0, 0))
     return img
 
 

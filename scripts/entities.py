@@ -197,7 +197,7 @@ class Player(PhysicsEntity):
 
             self.flip = not self.collisions["right"]
 
-        self.set_action("wall_jump")
+            self.set_action("wall_jump")
 
         if not self.wall_jumps:
             if self.air_time > 4:

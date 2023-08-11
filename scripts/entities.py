@@ -149,6 +149,7 @@ class Player(PhysicsEntity):
         width and height of the player's sprite or the dimensions of the player's hitbox. The exact
         interpretation of "size" would depend on the implementation of the game
         """
+
         super().__init__(game, "player", pos, size)
         self.air_time = 0
         self.jumps = 1
@@ -156,6 +157,11 @@ class Player(PhysicsEntity):
         self.dashing = 0
 
     def jump(self):
+        """
+        The function allows the player character to jump, taking into account wall jumps and regular
+        jumps.
+        :return: a boolean value indicating whether a jump was successfully executed.
+        """
         if self.wall_jumps:
             if self.flip and self.last_movement[0] < 0:
                 self.velocity[0] = 3.5
@@ -177,6 +183,10 @@ class Player(PhysicsEntity):
             return True
 
     def dash(self):
+        """
+        The function sets the value of `self.dashing` to -70 if `self.flip` is true, otherwise it sets
+        it to 70.
+        """
         if not self.dashing:
             self.dashing = -70 if self.flip else 70
 

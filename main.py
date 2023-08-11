@@ -48,6 +48,9 @@ class Game:
             "particle/leaf": Animation(
                 load_images("particles/leaf"), image_duration=20, loop=False
             ),
+            "particle/particle": Animation(
+                load_images("particles/particle"), image_duration=6, loop=False
+            ),
         }
 
         self.clouds = Clouds(self.assets["clouds"], count=16)
@@ -133,7 +136,8 @@ class Game:
                         self.movement[1] = True
                     if event.key in (pygame.K_SPACE, pygame.K_UP, pygame.K_w):
                         self.player.jump()
-
+                    if event.key == pygame.K_f:
+                        self.player.dash()
                 if event.type == pygame.KEYUP:
                     if event.key in (pygame.K_a, pygame.K_LEFT):
                         self.movement[0] = False
